@@ -8,7 +8,7 @@ PUT 	/ 				controllers.Auth.auth()
 POST	/ 				controllers.Auth.register()
 DELETE	/ 				controllers.Auth.logout()
 
-GET 	/ships			controllers.Ships.getships()
+POST 	/ships			controllers.Ships.getships()
 GET     /api/jsRoutes	controllers.Application.jsRoutes()
 
 # Map static resources from the /public folder to the /assets URL path

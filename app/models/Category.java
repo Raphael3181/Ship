@@ -27,9 +27,9 @@ public class Category extends Model {
 		if(cat.isEmpty()) return null; else return cat.get(0);
 	}
 	
-	public static Category AIRCRAFT_CARRIER() { return byName("Авианосцы"); }
-	public static Category BATTLESHIP() { return byName("Линкоры"); }
-	public static Category CRUISER() { return byName("Крейсеры"); }
-	public static Category SUBMARINE() { return byName("Подводные лодки"); }
-	public static Category DESTROYER() { return byName("Эсминцы"); }
+	public static Category AIRCRAFT_CARRIER() { return byName("Авианосец"); }
+	public static Category BATTLESHIP() { return byName("Линкор"); }
+	public static Category CRUISER() { return byName("Крейсер"); }
+	public static Category SUBMARINE() { return byName("Подводная лодка"); }
+	public static Category DESTROYER() { return byName("Эсминец"); }
 }

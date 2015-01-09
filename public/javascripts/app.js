@@ -42,7 +42,7 @@ function UserShipViewModel() {
     self.email = ko.observable(""); // Email
     self.password = ko.observable(""); // Пароль
     self.authemail = ko.observable(""); // Поле для Email после входа
-    
+
     self.ships = ko.observableArray([]);
     self.name = ko.observable("");
     self.category = ko.observable("");
@@ -113,15 +113,12 @@ function UserShipViewModel() {
             }, error: function(data) { alert("Произошла ошибка!\n" + data.error); }
         });
     }
-    
+
     self.loadships = function(fleet, cat) {
         self.ships.destroyAll();
         self.name("");
-        var jsonData = ko.toJSON(new Req(fleet, cat));
         jsRoutes.controllers.Ships.getships().ajax({
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            data: jsonData,
+            data: new Req(fleet, cat),
             success: function(data) {
                 for (i = 0; i < data.objects.length; i++) {
                     var o = data.objects[i];

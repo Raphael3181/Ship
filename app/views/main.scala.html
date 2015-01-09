@@ -24,17 +24,17 @@
 		<div class="navbar-header"><a class="navbar-brand" href="/">Корабли</a></div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-           		<li id="lihome" class="active"><a href="#" onclick="activate(0)">Главная</a></li>
+				<li id="lihome" class="active"><a href="#" onclick="activate(0)">Главная</a></li>
 				@for(fleet <- Country.all) {
-           		<li id="lifleet@fleet.id" class="dropdown">
+				<li id="lifleet@fleet.id" class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">@fleet.fleet</a>
 					<ul class="dropdown-menu">
 					@for(cat <- Category.all) {
-           				<li>
-           					<a href="#" data-bind="click: $root.loadships(@fleet.id, @cat.id)" 
-           						onclick="activate(@fleet.id)">@cat.name</a>
-           				</li>
-           			}
+						<li>
+							<a href="#" data-bind="click: $root.loadships(@fleet.id, @cat.id)"
+								onclick="activate(@fleet.id)">@cat.name</a>
+						</li>
+					}
 					</ul>
 				</li>
 				}

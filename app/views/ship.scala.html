@@ -1,4 +1,6 @@
-<div data-bind="visible: name() != ''">
+<div data-bind="visible: name().length>0">
 <h4 data-bind="text: name"></h4>
-<p><b>Класс:</b> <span data-bind="text: category"></span></p>
+<p><b>Класс:</b> <label data-bind="text: category"></label></p>
+<p><b>Страна:</b> <label data-bind="text: country"></label></p>
+<p><b>Производитель:</b> <label data-bind="text: manufacturer"></label></p>
 </div>

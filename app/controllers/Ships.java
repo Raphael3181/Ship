@@ -1,21 +1,21 @@
 package controllers;
 
 import models.Ship;
+import play.data.*;
 import play.libs.Json;
 import play.mvc.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Ships extends Controller {
 	// Получить корабли
-	@BodyParser.Of(BodyParser.Json.class)
 	public static Result getships() {
-		JsonNode json = request().body().asJson();
         ObjectNode result = Json.newObject();
     	result.put("status", "OK");
-    	result.put("objects", Json.toJson(Ship.get(json.findPath("fleet").intValue(), 
-    			json.findPath("cat").intValue())));
+    	DynamicForm data = Form.form().bindFromRequest();
+    	int fleet = Integer.valueOf(data.get("fleet"));
+    	int cat = Integer.valueOf(data.get("cat"));
+    	result.put("objects", Json.toJson(Ship.get(fleet,cat)));
     	return ok(result);
 	}
 }
