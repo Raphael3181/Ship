@@ -113,23 +113,25 @@ function UserShipViewModel() {
             }, error: function(data) { alert("Произошла ошибка!\n" + data.error); }
         });
     }
-
     self.loadships = function(fleet, cat) {
         self.ships.destroyAll();
         self.name("");
         jsRoutes.controllers.Ships.getships().ajax({
             data: new Req(fleet, cat),
             success: function(data) {
+                self.ships.valueWillMutate();
+                self.ships([]);
                 for (i = 0; i < data.objects.length; i++) {
                     var o = data.objects[i];
                     self.ships.push(new Ship(i,
-                            o.name, o.category.name, o.country.name,
-                            o.manufacturer, o.homeport, o.status, o.summary,
-                            o.build_start, o.launch_date,
-                            o.commissioned_in, o.removed_from_fleet,
-                            o.displacement, o.length, o.width, o.height, o.draft,
-                            o.power, o.speed, o.crew, o.arming));
+                    o.name, o.category.name, o.country.name,
+                    o.manufacturer, o.homeport, o.status, o.summary,
+                    o.build_start, o.launch_date,
+                    o.commissioned_in, o.removed_from_fleet,
+                    o.displacement, o.length, o.width, o.height, o.draft,
+                    o.power, o.speed, o.crew, o.arming));
                 }
+                self.ships.valueHasMutated();
             }, error: function(data) { alert("Произошла ошибка!\n" + data.error()); }
         });
     }

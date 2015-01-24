@@ -1,6 +1,85 @@
 <div data-bind="visible: name().length>0">
 <h4 data-bind="text: name"></h4>
-<p><b>Класс:</b> <label data-bind="text: category"></label></p>
-<p><b>Страна:</b> <label data-bind="text: country"></label></p>
-<p><b>Производитель:</b> <label data-bind="text: manufacturer"></label></p>
+<table>
+	<tr>
+		<td style="vertical-align: top">
+			<p><b data-bind="text: summary"></b></p>
+			<p><b>Вооружение:</b></p>
+			<p><b data-bind="text: arming"></b></p>
+		</td>
+		<td style="vertical-align: top">
+			<table class="table">
+				<tr>
+					<td><b>Класс:</b></td>
+					<td data-bind="text: category"></td>
+				</tr>
+				<tr>
+					<td><b>Страна:</b></td>
+					<td data-bind="text: country"></td>
+				</tr>
+				<tr>
+					<td><b>Производитель:</b></td>
+					<td data-bind="text: manufacturer"></td>
+				</tr>
+				<tr data-bind="visible: homeport() != null">
+					<td><b>Порт приписки:</b></td>
+					<td data-bind="text: homeport"></td>
+				</tr>
+				<tr>
+					<td><b>Статус:</b></td>
+					<td data-bind="text: status"></td>
+				</tr>
+				<tr>
+					<td><b>Начало строительства:</b></td>
+					<td data-bind="text: build_start"></td>
+				</tr>
+				<tr>
+					<td><b>Спуск на воду:</b></td>
+					<td data-bind="text: launch_date"></td>
+				</tr>
+				<tr>
+					<td><b>Введен в эксплуатацию:</b></td>
+					<td data-bind="text: commissioned_in"></td>
+				</tr>
+				<tr data-bind="visible: removed_from_fleet() != null">
+					<td><b>Выход из состава флота:</b></td>
+					<td data-bind="text: removed_from_fleet"></td>
+				</tr>
+				<tr>
+					<td><b>Экипаж:</b></td>
+					<td data-bind="text: crew() + ' чел.'"></td>
+				</tr>
+				<tr>
+					<td><b>Скорость:</b></td>
+					<td data-bind="text: speed() + ' узл.'"></td>
+				</tr>
+				<tr>
+					<td><b>Мощность:</b></td>
+					<td data-bind="text: power() + ' л. с.'"></td>
+				</tr>
+				<tr>
+					<td><b>Водоизмещение:</b></td>
+					<td data-bind="text: crew() + ' т'"></td>
+				</tr>
+				<tr>
+					<td><b>Осадка:</b></td>
+					<td data-bind="text: draft() + ' м'"></td>
+				</tr>
+				<tr><td colspan="2" style="text-align: center"><b>Размеры</b></td></tr>
+				<tr>
+					<td><b>Длина:</b></td>
+					<td data-bind="text: length() + ' м'"></td>
+				</tr>
+				<tr>
+					<td><b>Ширина:</b></td>
+					<td data-bind="text: width() + ' м'"></td>
+				</tr>
+				<tr>
+					<td><b>Высота:</b></td>
+					<td data-bind="text: height() + ' м'"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
 </div>

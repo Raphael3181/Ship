@@ -1,10 +1,10 @@
 @main("Корабли") {
-<div data-bind="visible: name() == ''">
+<div data-bind="visible: ships().length<1">
 <br><br>
 <h2 align="center">Уникальные боевые корабли</h2>
 <br><br>
 <div style="text-align: right">
-	<em>
+	<em style="color: #FFF">
 	Те корабли хороши и крепки и хорошо построены,<br>
 	которые плывут не только при тихой погоде, а<br>
 	сохраняются в бурю. Также и люди, противящиеся<br>
