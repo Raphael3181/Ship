@@ -24,14 +24,16 @@
 		<div class="navbar-header"><a class="navbar-brand" href="/">Корабли</a></div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li id="lihome" class="active"><a href="#" onclick="activate(0)">Главная</a></li>
+				<li id="lihome" class="active">
+					<a href="#" data-bind="click: shipsselected(false)" onclick="activate(0)">Главная</a>
+				</li>
 				@for(fleet <- Country.all) {
 				<li id="lifleet@fleet.id" class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">@fleet.fleet</a>
 					<ul class="dropdown-menu">
 					@for(cat <- Category.all) {
 						<li>
-							<a href="#" data-bind="click: $root.loadships(@fleet.id, @cat.id)"
+							<a href="#" data-bind="click: loadships.bind($root, @fleet.id, @cat.id)"
 								onclick="activate(@fleet.id)">@cat.name</a>
 						</li>
 					}
@@ -43,7 +45,7 @@
 				<li class="dropdown" data-bind="visible: authemail().length > 0">
 					<a href="#" class="dropdown-toggle" data-bind="text: email" data-toggle="dropdown"></a>
 					<ul class="dropdown-menu">
-           				<li><a href="#" data-bind="click: $root.logout">Выйти</a></li>
+           				<li><a href="#" data-bind="click: logout">Выйти</a></li>
 					</ul>
 				</li>	
          		</ul>
@@ -54,8 +56,12 @@
 				<div class="form-group">
 					<input type="password" data-bind="value: password" placeholder="Пароль" class="form-control">
 				</div>
-				<button type="submit" value="submit" class = "btn btn-success" data-bind="click: $root.auth">Войти</button>
-				<button type="submit" value="submit" class = "btn btn-primary" data-bind="click: $root.register">Регистрация</button>
+				<button type="submit" value="submit" class="btn btn-success" data-bind="click: auth">
+					Войти
+				</button>
+				<button type="submit" value="submit" class="btn btn-primary" data-bind="click: register">
+					Регистрация
+				</button>
 			</form>				
 		</div>
 	</div>

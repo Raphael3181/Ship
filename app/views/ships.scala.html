@@ -1,6 +1,6 @@
-<div data-bind="visible: ships().length>0">
+<div data-bind="visible: shipsselected()">
 <div data-bind="foreach: ships()">
-	<a href="#" class="btn" data-bind="click: $root.loadship(id())" style="color:white">
+	<a href="#" class="btn" data-bind="click: $root.loadship.bind($root, id())" style="color:white">
 		<b data-bind="text: name"></b>
 	</a>
 	<br>

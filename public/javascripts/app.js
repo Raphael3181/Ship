@@ -39,32 +39,35 @@ function Req(fleet, cat) {
 //ViewModel
 function UserShipViewModel() {
     var self = this;
-    self.email = ko.observable(""); // Email
-    self.password = ko.observable(""); // Пароль
+    self.email = ko.observable("");     // Email
+    self.password = ko.observable("");  // Пароль
     self.authemail = ko.observable(""); // Поле для Email после входа
 
-    self.ships = ko.observableArray([]);
-    self.name = ko.observable("");
-    self.category = ko.observable("");
-    self.country = ko.observable("");
-    self.manufacturer = ko.observable("");
-    self.homeport = ko.observable(null);
-    self.status = ko.observable("");
-    self.summary = ko.observable("");
-    self.build_start = ko.observable("");
-    self.launch_date = ko.observable("");
-    self.commissioned_in = ko.observable("");
-    self.removed_from_fleet = ko.observable(null);
-    self.displacement = ko.observable(0);
-    self.length = ko.observable(0.0);
-    self.width = ko.observable(0.0);
-    self.height = ko.observable(0.0);
-    self.draft = ko.observable(0.0);
-    self.power = ko.observable(0);
-    self.speed = ko.observable(0);
-    self.crew = ko.observable(0);
-    self.arming = ko.observable("");
+    self.ships = ko.observableArray([]);            // Массив кораблей
+    self.name = ko.observable("");                  // Название
+    self.category = ko.observable("");              // Тип
+    self.country = ko.observable("");               // Страна
+    self.manufacturer = ko.observable("");          // Производитель
+    self.homeport = ko.observable(null);            // Порт приписки
+    self.status = ko.observable("");                // Статус
+    self.summary = ko.observable("");               // Описание
+    self.build_start = ko.observable("");           // Начало строительства
+    self.launch_date = ko.observable("");           // Дата спуска на воду
+    self.commissioned_in = ko.observable("");       // Дата введения в эксплуатацию
+    self.removed_from_fleet = ko.observable(null);  // Вышел из состава флота
+    self.displacement = ko.observable(0);           // Водоизмещение
+    self.length = ko.observable(0.0);               // Длина
+    self.width = ko.observable(0.0);                // Ширина
+    self.height = ko.observable(0.0);               // Высота
+    self.draft = ko.observable(0.0);                // Осадка
+    self.power = ko.observable(0);                  // Мощность
+    self.speed = ko.observable(0);                  // Скорость
+    self.crew = ko.observable(0);                   // Экипаж
+    self.arming = ko.observable("");                // Вооружение
     
+    self.shipselected = ko.observable(false);   // Выбран ли корабль
+    self.shipsselected = ko.observable(false);  // Выбран ли тип корабля
+    // Авторизация
     self.auth = function() {
         var jsonData = ko.toJSON(new User(self.email(), self.password(), "json"));
         jsRoutes.controllers.Auth.auth().ajax( {
@@ -77,6 +80,7 @@ function UserShipViewModel() {
             }, error: function(data) { alert("Неверный Email или пароль!"); }
         });
     }
+    // Авторизация через cookies
     self.authcookies = function() {
         var jsonData = ko.toJSON(new User("", "", "cookies"));
         jsRoutes.controllers.Auth.auth().ajax( {
@@ -89,6 +93,7 @@ function UserShipViewModel() {
             }, error: function(data) { }
         });
     }
+    // Регистрация
     self.register = function() {
         var jsonData = ko.toJSON(new User(self.email(), self.password()));
         jsRoutes.controllers.Auth.register().ajax( {
@@ -101,6 +106,7 @@ function UserShipViewModel() {
             }, error: function(data) { alert("Этот Email уже зарегистрирован!"); }
         });
     }
+    // Выход
     self.logout = function() {
         jsRoutes.controllers.Auth.logout().ajax( {
             dataType: 'json',
@@ -113,9 +119,12 @@ function UserShipViewModel() {
             }, error: function(data) { alert("Произошла ошибка!\n" + data.error); }
         });
     }
+    // Загрузить корабли
     self.loadships = function(fleet, cat) {
         self.ships.destroyAll();
         self.name("");
+        self.shipselected(false);        
+        self.shipsselected(true);
         jsRoutes.controllers.Ships.getships().ajax({
             data: new Req(fleet, cat),
             success: function(data) {
@@ -124,40 +133,44 @@ function UserShipViewModel() {
                 for (i = 0; i < data.objects.length; i++) {
                     var o = data.objects[i];
                     self.ships.push(new Ship(i,
-                    o.name, o.category.name, o.country.name,
-                    o.manufacturer, o.homeport, o.status, o.summary,
-                    o.build_start, o.launch_date,
-                    o.commissioned_in, o.removed_from_fleet,
-                    o.displacement, o.length, o.width, o.height, o.draft,
-                    o.power, o.speed, o.crew, o.arming));
+                        o.name, o.category.name, o.country.name,
+                        o.manufacturer, o.homeport, o.status, o.summary,
+                        o.build_start, o.launch_date,
+                        o.commissioned_in, o.removed_from_fleet,
+                        o.displacement, o.length, o.width, o.height, o.draft,
+                        o.power, o.speed, o.crew, o.arming));
                 }
                 self.ships.valueHasMutated();
             }, error: function(data) { alert("Произошла ошибка!\n" + data.error()); }
         });
     }
+    // Загрузить корабль
     self.loadship = function(id) {
-        var o = self.ships()[id];
-        self.name(o.name());
-        self.category(o.category());
-        self.country(o.country());
-        self.manufacturer(o.manufacturer());
-        self.homeport(o.homeport());
-        self.status(o.status());
-        self.summary(o.summary());
-        self.build_start(o.build_start());
-        self.launch_date(o.launch_date());
-        self.commissioned_in(o.commissioned_in());
-        self.removed_from_fleet(o.removed_from_fleet());
-        self.displacement(o.displacement());
-        self.length(o.length());
-        self.width(o.width());
-        self.height(o.height());
-        self.draft(o.draft());
-        self.power(o.power());
-        self.speed(o.speed());
-        self.crew(o.crew());
-        self.arming(o.arming());
-        replacehtml();
+        self.shipselected(!self.shipselected());
+        if (self.shipselected()) {
+            var o = self.ships()[id];
+            self.name(o.name());
+            self.category(o.category());
+            self.country(o.country());
+            self.manufacturer(o.manufacturer());
+            self.homeport(o.homeport());
+            self.status(o.status());
+            self.summary(o.summary());
+            self.build_start(o.build_start());
+            self.launch_date(o.launch_date());
+            self.commissioned_in(o.commissioned_in());
+            self.removed_from_fleet(o.removed_from_fleet());
+            self.displacement(o.displacement());
+            self.length(o.length());
+            self.width(o.width());
+            self.height(o.height());
+            self.draft(o.draft());
+            self.power(o.power());
+            self.speed(o.speed());
+            self.crew(o.crew());
+            self.arming(o.arming());
+            replacehtml();
+        }
     }
     self.authcookies();
 }
