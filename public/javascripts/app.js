@@ -157,6 +157,7 @@ function UserShipViewModel() {
         self.speed(o.speed());
         self.crew(o.crew());
         self.arming(o.arming());
+        replacehtml();
     }
     self.authcookies();
 }
