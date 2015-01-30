@@ -1,9 +1,10 @@
-<div data-bind="visible: shipsselected()">
-<div data-bind="foreach: ships()">
-	<a href="#" class="btn" data-bind="click: $root.loadship.bind($root, id())" style="color:white">
-		<b data-bind="text: name"></b>
+<div data-bind="visible: shipsselected()"> <!--Список кораблей-->
+<div data-bind="foreach: ships()">  <!--для каждого корабля из списка-->
+	<a href="#" class="btn" data-bind="click: $root.loadship.bind($root, id())" style="color:white"> <!--Добавляем ссылку при нажатии откр корабль-->
+		<b data-bind="text: name"></b> <!--Название корабля-->
 	</a>
 	<br>
 </div>
+<hr>
 @ship()
 </div>

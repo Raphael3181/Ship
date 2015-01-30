@@ -25,7 +25,7 @@ public class Global extends GlobalSettings {
   
   // Добавить все страны
   private void addAllCoutries() {
-	  new Country("Россия", "Флот России").save();
+	  new Country("СССР", "Флот СССР").save();
 	  new Country("США", "Флот США").save();
 	  new Country("Япония", "Флот Японии").save();
   }

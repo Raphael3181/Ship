@@ -5,11 +5,11 @@ function User(email, password, mode) {
     this.mode = mode;
 }
 //Model
-function Ship(id,
+function Ship(id,   
         name, category, country, manufacturer, homeport, status, summary,
         build_start, launch_date, commissioned_in, removed_from_fleet,
         displacement, length, width, height, draft,
-        power, speed, crew, arming) {
+        power, speed, crew, arming) {    //модель корабля возврат с сервера
     this.id = ko.observable(id);
     this.name = ko.observable(name);
     this.category = ko.observable(category);
@@ -32,12 +32,12 @@ function Ship(id,
     this.crew = ko.observable(crew);
     this.arming = ko.observable(arming);
 }
-function Req(fleet, cat) {
+function Req(fleet, cat) {   //модель запроса по классу и флоту
     this.fleet = fleet;
     this.cat = cat;
 }
 //ViewModel
-function UserShipViewModel() {
+function UserShipViewModel() {      
     var self = this;
     self.email = ko.observable("");     // Email
     self.password = ko.observable("");  // Пароль
@@ -69,14 +69,13 @@ function UserShipViewModel() {
     self.shipsselected = ko.observable(false);  // Выбран ли тип корабля
     // Авторизация
     self.auth = function() {
-        var jsonData = ko.toJSON(new User(self.email(), self.password(), "json"));
-        jsRoutes.controllers.Auth.auth().ajax( {
+        var jsonData = ko.toJSON(new User(self.email(), self.password(), "json"));  //Json запрос для сервера
+        jsRoutes.controllers.Auth.auth().ajax( {    //отправка запроса
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: jsonData,
-            success: function(data) {
-                self.email(data.email);
-                self.authemail(data.email);
+            success: function(data) {  //запрос успешен получаем данные
+                self.authemail(data.email); //замена текстового поля
             }, error: function(data) { alert("Неверный Email или пароль!"); }
         });
     }
@@ -88,7 +87,6 @@ function UserShipViewModel() {
             contentType: 'application/json; charset=utf-8',
             data: jsonData,
             success: function(data) {
-                self.email(data.email);
                 self.authemail(data.email);
             }, error: function(data) { }
         });
@@ -101,7 +99,6 @@ function UserShipViewModel() {
             contentType: 'application/json; charset=utf-8',
             data: jsonData,
             success: function(data) {
-                self.email(data.email);
                 self.authemail(data.email);
             }, error: function(data) { alert("Этот Email уже зарегистрирован!"); }
         });
@@ -121,18 +118,18 @@ function UserShipViewModel() {
     }
     // Загрузить корабли
     self.loadships = function(fleet, cat) {
-        self.ships.destroyAll();
-        self.name("");
-        self.shipselected(false);        
-        self.shipsselected(true);
-        jsRoutes.controllers.Ships.getships().ajax({
-            data: new Req(fleet, cat),
+        self.ships.destroyAll();  //стираем прошлые
+        self.name("");  //очищаем поле имя
+        self.shipselected(false);  //корабль не выбран      
+        self.shipsselected(true);  //выбрана категория
+        jsRoutes.controllers.Ships.getships().ajax({  //запрос серверу
+            data: new Req(fleet, cat), //отправка данных о категории и флоте
             success: function(data) {
-                self.ships.valueWillMutate();
+                self.ships.valueWillMutate(); //обновление списка кораблей
                 self.ships([]);
-                for (i = 0; i < data.objects.length; i++) {
+                for (i = 0; i < data.objects.length; i++) { //цикл прогон по списку кораблей
                     var o = data.objects[i];
-                    self.ships.push(new Ship(i,
+                    self.ships.push(new Ship(i, //данные о корабле в массиве
                         o.name, o.category.name, o.country.name,
                         o.manufacturer, o.homeport, o.status, o.summary,
                         o.build_start, o.launch_date,
@@ -140,15 +137,15 @@ function UserShipViewModel() {
                         o.displacement, o.length, o.width, o.height, o.draft,
                         o.power, o.speed, o.crew, o.arming));
                 }
-                self.ships.valueHasMutated();
+                self.ships.valueHasMutated(); //закончили обновление списка
             }, error: function(data) { alert("Произошла ошибка!\n" + data.error()); }
         });
     }
     // Загрузить корабль
-    self.loadship = function(id) {
+    self.loadship = function(id) {  //загрузка данных о корабле
         self.shipselected(!self.shipselected());
         if (self.shipselected()) {
-            var o = self.ships()[id];
+            var o = self.ships()[id];  //берем корабль с номером id
             self.name(o.name());
             self.category(o.category());
             self.country(o.country());

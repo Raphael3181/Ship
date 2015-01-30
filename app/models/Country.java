@@ -27,7 +27,7 @@ public class Country extends Model {
 		if(list.isEmpty()) return null; else return list.get(0);
 	}
 	
-	public static Country RUSSIA() { return byName("Россия"); } //ф-ции возврата флота
+	public static Country RUSSIA() { return byName("СССР"); } //ф-ции возврата флота
 	public static Country USA() { return byName("США"); }
 	public static Country JAPAN() { return byName("Япония"); }
 }
