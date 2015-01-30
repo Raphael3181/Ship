@@ -56,7 +56,7 @@ public class Ship extends Model {
 	
 	private static Finder<Long, Ship> find = new Finder<Long, Ship>(Long.class, Ship.class);
 	
-	public static List<Ship> get(Integer fleet, Integer cat) {
+	public static List<Ship> get(Integer fleet, Integer cat) {    //возврат кораблей по флоту и по категории
 		return find.where(Expr.and(Expr.eq("country_id", fleet), Expr.eq("category_id", cat))).findList();
 	}
 }

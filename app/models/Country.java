@@ -16,18 +16,18 @@ public class Country extends Model {
 	public String name; // Название страны
 	@NotNull
 	public String fleet; // Название флота
-	public Country(String name, String fleet) { this.name = name; this.fleet = fleet; }
+	public Country(String name, String fleet) { this.name = name; this.fleet = fleet; }  //конструктор создания флота
 	
-	private static Finder<Long, Country> find = new Finder<Long, Country>(Long.class, Country.class);
+	private static Finder<Long, Country> find = new Finder<Long, Country>(Long.class, Country.class); //поиск соответсвия в базе
 	
-	public static List<Country> all() { return find.all(); }
+	public static List<Country> all() { return find.all(); } //все флоты
 	
 	public static Country byName(String name) {
-		List<Country> list = find.where().ieq("name", name).findList();
+		List<Country> list = find.where().ieq("name", name).findList(); //получить флот по имени
 		if(list.isEmpty()) return null; else return list.get(0);
 	}
 	
-	public static Country RUSSIA() { return byName("Россия"); }
+	public static Country RUSSIA() { return byName("Россия"); } //ф-ции возврата флота
 	public static Country USA() { return byName("США"); }
 	public static Country JAPAN() { return byName("Япония"); }
 }
