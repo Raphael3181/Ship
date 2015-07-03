@@ -59,4 +59,17 @@ public class Ship extends Model {
 	public static List<Ship> get(Integer fleet, Integer cat) {    //возврат кораблей по флоту и по категории
 		return find.where(Expr.and(Expr.eq("country_id", fleet), Expr.eq("category_id", cat))).findList();
 	}
+	
+	public static List<Ship> get(Integer fleet, boolean[] cat) {    //возврат кораблей по флоту и по категории
+		String where = "country_id = " + fleet + " and (";
+		if(cat[0]) where += "category_id = 1";
+		if(cat[1] && (cat[0] || cat[2] || cat[3])) where += " or ";
+		if(cat[1]) where += "category_id = 2";
+		if(cat[2] && (cat[0] || cat[1] || cat[3])) where += " or ";
+		if(cat[2]) where += "category_id = 3";
+		if(cat[3] && (cat[0] || cat[1] || cat[2])) where += " or ";
+		if(cat[3]) where += "category_id = 5";
+		where += ")";
+		return find.where(where).findList();
+	}
 }
