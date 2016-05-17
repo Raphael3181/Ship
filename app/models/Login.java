@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import play.data.validation.Constraints.*;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 public class Login extends Model {
 	@Id

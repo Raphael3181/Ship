@@ -6,22 +6,15 @@ function User(email, password, mode) {
 }
 //Model
 function Ship(id,   
-        name, category, country, manufacturer, homeport, status, summary,
-        build_start, launch_date, commissioned_in, removed_from_fleet,
+        name, category, country,summary,launch_date,
         displacement, length, width, height, draft,
-        power, speed, crew, arming) {    //модель корабля возврат с сервера
+        power, speed, crew, distance, arming,engine,artillery,antiAir,airGroup) {    //модель корабля возврат с сервера
     this.id = ko.observable(id);
     this.name = ko.observable(name);
     this.category = ko.observable(category);
     this.country = ko.observable(country);
-    this.manufacturer = ko.observable(manufacturer);
-    this.homeport = ko.observable(homeport);
-    this.status = ko.observable(status);
     this.summary = ko.observable(summary);
-    this.build_start = ko.observable(dateFormat(build_start));
     this.launch_date = ko.observable(dateFormat(launch_date));
-    this.commissioned_in = ko.observable(dateFormat(commissioned_in));
-    this.removed_from_fleet = ko.observable(dateFormat(removed_from_fleet));
     this.displacement = ko.observable(displacement);
     this.length = ko.observable(length);
     this.width = ko.observable(width);
@@ -30,7 +23,12 @@ function Ship(id,
     this.power = ko.observable(power);
     this.speed = ko.observable(speed);
     this.crew = ko.observable(crew);
+    this.distance = ko.observable(distance);
     this.arming = ko.observable(arming);
+    this.engine = ko.observable( engine);
+    this.artillery = ko.observable(artillery);
+    this.antiAir = ko.observable(antiAir);
+    this.airGroup = ko.observable(airGroup);
 }
 function Req(fleet, cat) {   //модель запроса по классу и флоту
     this.fleet = fleet;
@@ -47,14 +45,8 @@ function UserShipViewModel() {
     self.name = ko.observable("");                  // Название
     self.category = ko.observable("");              // Тип
     self.country = ko.observable("");               // Страна
-    self.manufacturer = ko.observable("");          // Производитель
-    self.homeport = ko.observable(null);            // Порт приписки
-    self.status = ko.observable("");                // Статус
     self.summary = ko.observable("");               // Описание
-    self.build_start = ko.observable("");           // Начало строительства
     self.launch_date = ko.observable("");           // Дата спуска на воду
-    self.commissioned_in = ko.observable("");       // Дата введения в эксплуатацию
-    self.removed_from_fleet = ko.observable(null);  // Вышел из состава флота
     self.displacement = ko.observable(0);           // Водоизмещение
     self.length = ko.observable(0.0);               // Длина
     self.width = ko.observable(0.0);                // Ширина
@@ -63,7 +55,12 @@ function UserShipViewModel() {
     self.power = ko.observable(0);                  // Мощность
     self.speed = ko.observable(0);                  // Скорость
     self.crew = ko.observable(0);                   // Экипаж
+    self.distance = ko.observable(0);     			// Дальность хода
     self.arming = ko.observable("");                // Вооружение
+    self.engine = ko.observable("");       			// Движитель
+    self.artillery = ko.observable("");				// Артиллерия
+    self.antiAir = ko.observable("");				// ПВО
+    self.airGroup = ko.observable("");				// Воздушная группа
     
     self.shipselected = ko.observable(false);   // Выбран ли корабль
     self.shipsselected = ko.observable(false);  // Выбран ли тип корабля
@@ -131,11 +128,10 @@ function UserShipViewModel() {
                     var o = data.objects[i];
                     self.ships.push(new Ship(i, //данные о корабле в массиве
                         o.name, o.category.name, o.country.name,
-                        o.manufacturer, o.homeport, o.status, o.summary,
-                        o.build_start, o.launch_date,
-                        o.commissioned_in, o.removed_from_fleet,
+                        o.summary,o.launch_date,
                         o.displacement, o.length, o.width, o.height, o.draft,
-                        o.power, o.speed, o.crew, o.arming));
+                        o.power, o.speed, o.crew, o.distance, o.arming, 
+                        o.engine,o.artillery,o.antiAir,o.airGroup));
                 }
                 self.ships.valueHasMutated(); //закончили обновление списка
             }, error: function(data) { alert("Произошла ошибка!\n" + data.error()); }
@@ -149,14 +145,8 @@ function UserShipViewModel() {
             self.name(o.name());
             self.category(o.category());
             self.country(o.country());
-            self.manufacturer(o.manufacturer());
-            self.homeport(o.homeport());
-            self.status(o.status());
             self.summary(o.summary());
-            self.build_start(o.build_start());
             self.launch_date(o.launch_date());
-            self.commissioned_in(o.commissioned_in());
-            self.removed_from_fleet(o.removed_from_fleet());
             self.displacement(o.displacement());
             self.length(o.length());
             self.width(o.width());
@@ -165,7 +155,12 @@ function UserShipViewModel() {
             self.power(o.power());
             self.speed(o.speed());
             self.crew(o.crew());
+            self.distance(o.distance());
             self.arming(o.arming());
+            self.engine(o.engine());
+            self.artillery(o.artillery());
+            self.antiAir(o.antiAir());
+            self.airGroup(o.airGroup());
             replacehtml();
         }
     }

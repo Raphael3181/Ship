@@ -16,12 +16,12 @@ public class Ships extends Controller {
     	DynamicForm data = Form.form().bindFromRequest();
     	int fleet = Integer.valueOf(data.get("fleet")); //передет id флота
     	int cat = Integer.valueOf(data.get("cat")); //передает id категории
-    	result.put("objects", Json.toJson(Ship.get(fleet,cat))); //возврат списка кораблей(создание поля objects в виде массива кораблей )
+    	result.set("objects", Json.toJson(Ship.get(fleet,cat))); //возврат списка кораблей(создание поля objects в виде массива кораблей )
     	return ok(result);
 	}
 	
 	@BodyParser.Of(BodyParser.Json.class)
-	public static Result getships_api() {
+	public static Result getships_api() {  // Запрос с клиента
 		JsonNode json = request().body().asJson();
 		boolean[] classes = new boolean[4];
 		classes[0] = json.findPath("aircraft").booleanValue();
@@ -30,7 +30,26 @@ public class Ships extends Controller {
 		classes[3] = json.findPath("destroyer").booleanValue();
 		ObjectNode result = Json.newObject();
     	result.put("status", "OK");
-    	result.put("ships", Json.toJson(Ship.get(json.findPath("country").intValue(), classes)));
+    	result.set("ships", Json.toJson(Ship.get(json.findPath("country").intValue(), classes)));
+    	return ok(result);
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result sendship_api() {
+		JsonNode json = request().body().asJson();
+		if (json.has("id")) new Ship(json).update();
+		else new Ship(json).save();
+		ObjectNode result = Json.newObject();
+    	result.put("status", "OK");
+    	return ok(result);
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result delship_api() {
+		JsonNode json = request().body().asJson();
+		Ship.delete(json.findPath("id").longValue());
+		ObjectNode result = Json.newObject();
+		result.put("status", "OK");
     	return ok(result);
 	}
 }

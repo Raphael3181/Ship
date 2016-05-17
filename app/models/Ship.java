@@ -7,10 +7,11 @@ import javax.validation.constraints.NotNull;
 
 import com.avaje.ebean.Expr;
 
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
-public class Ship extends Model {
+public class Ship extends Model { //Поля соотв столбцам
 	@Id
 	public Long id;
 	@NotNull @ManyToOne
@@ -19,22 +20,10 @@ public class Ship extends Model {
 	public Country country; // Страна службы
 	@NotNull
 	public String name; // Название
-	@NotNull
-	public String manufacturer; // Производитель
-	public String homeport; // Порт приписки
-	@NotNull
-	public String status;
 	@NotNull @Column(columnDefinition = "TEXT")
 	public String summary; // Описание
-	
-	@NotNull
-	public Long build_start; // Начало строительства
 	@NotNull
 	public Long launch_date; // Спуск на воду
-	@NotNull
-	public Long commissioned_in; // Введен в эксплуатацию
-	public Long removed_from_fleet; // Вышел из состава флота
-	
 	@NotNull
 	public Integer displacement; // Стандартное водоизмещение в т
 	@NotNull
@@ -46,18 +35,54 @@ public class Ship extends Model {
 	@NotNull
 	public Double draft; // Осадка в м
 	@NotNull
+	public String engine; //Движитель
+	@NotNull
 	public Integer power; // Мощность в л. с.
 	@NotNull
 	public Integer speed; // Скорость в узлах
 	@NotNull
+	public Integer distance;//Дальность хода
+	@NotNull
 	public Integer crew; // Экипаж
 	@NotNull @Column(columnDefinition = "TEXT")
 	public String arming; // Вооружение
+	@NotNull
+	public String artillery; // Артиллерия
+	@NotNull
+	public String antiAir; //ПВО
+	@NotNull
+	public String airGroup; //Авиагруппа
 	
-	private static Finder<Long, Ship> find = new Finder<Long, Ship>(Long.class, Ship.class);
+	public Ship(){
+		
+	}
+	
+	private static Finder<Long, Ship> find = new Finder<Long, Ship>(Long.class, Ship.class); //Формирует корабль из JSON
+	public Ship(JsonNode json) {
+		if (json.has("id")) id = json.findPath("id").longValue();
+		category = Category.byName(json.findPath("category").textValue()) ;
+		country = Country.byName(json.findPath("country").textValue());
+		name = json.findPath("name").textValue();
+		summary = json.findPath("summary").textValue();
+		launch_date = json.findPath("launch_date").longValue();
+		displacement = json.findPath("displacement").intValue();
+		length = json.findPath("length").doubleValue();
+		width = json.findPath("width").doubleValue();
+		height = json.findPath("height").doubleValue();
+		draft = json.findPath("draft").doubleValue();
+		engine = json.findPath("engine").textValue();
+		power = json.findPath("power").intValue();
+		speed = json.findPath("speed").intValue();
+		distance = json.findPath("distance").intValue();
+		crew = json.findPath("crew").intValue();
+		arming = json.findPath("arming").textValue();
+		artillery = json.findPath("artillery").textValue();
+		antiAir = json.findPath("antiAir").textValue();
+		airGroup = json.findPath("airGroup").textValue();
+	}
 	
 	public static List<Ship> get(Integer fleet, Integer cat) {    //возврат кораблей по флоту и по категории
-		return find.where(Expr.and(Expr.eq("country_id", fleet), Expr.eq("category_id", cat))).findList();
+		return find.where().and(Expr.eq("country_id", fleet), Expr.eq("category_id", cat)).findList();
 	}
 	
 	public static List<Ship> get(Integer fleet, boolean[] cat) {    //возврат кораблей по флоту и по категории
@@ -70,6 +95,9 @@ public class Ship extends Model {
 		if(cat[3] && (cat[0] || cat[1] || cat[2])) where += " or ";
 		if(cat[3]) where += "category_id = 5";
 		where += ")";
-		return find.where(where).findList();
+		return find.where().raw(where).findList();
+	}
+	public static void delete(long id){
+		find.deleteById(id);
 	}
 }

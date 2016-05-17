@@ -18,32 +18,8 @@
 					<td data-bind="text: country"></td>
 				</tr>
 				<tr>
-					<td><b>Производитель:</b></td>
-					<td data-bind="text: manufacturer"></td>
-				</tr>
-				<tr data-bind="visible: homeport() != null">
-					<td><b>Порт приписки:</b></td>
-					<td data-bind="text: homeport"></td>
-				</tr>
-				<tr>
-					<td><b>Статус:</b></td>
-					<td data-bind="text: status"></td>
-				</tr>
-				<tr>
-					<td><b>Начало строительства:</b></td>
-					<td data-bind="text: build_start"></td>
-				</tr>
-				<tr>
 					<td><b>Спуск на воду:</b></td>
 					<td data-bind="text: launch_date"></td>
-				</tr>
-				<tr>
-					<td><b>Введен в эксплуатацию:</b></td>
-					<td data-bind="text: commissioned_in"></td>
-				</tr>
-				<tr data-bind="visible: removed_from_fleet() != null">
-					<td><b>Выход из состава флота:</b></td>
-					<td data-bind="text: removed_from_fleet"></td>
 				</tr>
 				<tr>
 					<td><b>Экипаж:</b></td>
@@ -59,7 +35,7 @@
 				</tr>
 				<tr>
 					<td><b>Водоизмещение:</b></td>
-					<td data-bind="text: crew() + ' т'"></td>
+					<td data-bind="text: displacement() + ' т'"></td>
 				</tr>
 				<tr>
 					<td><b>Осадка:</b></td>
@@ -77,6 +53,26 @@
 				<tr>
 					<td><b>Высота:</b></td>
 					<td data-bind="text: height() + ' м'"></td>
+				</tr>
+				<tr>
+					<td><b>Движитель:</b></td>
+					<td data-bind="text: engine()"></td>
+				</tr>
+				<tr>
+					<td><b>Дальность хода:</b></td>
+					<td data-bind="text: distance() + ' км'"></td>
+				</tr>
+				<tr>
+					<td><b>Артиллерия:</b></td>
+					<td data-bind="text: artillery()"></td>
+				</tr>
+				<tr>
+					<td><b>ПВО:</b></td>
+					<td data-bind="text: antiAir()"></td>
+				</tr>
+				<tr>
+					<td><b>Воздушная группа:</b></td>
+					<td data-bind="text: airGroup()"></td>
 				</tr>
 			</table>
 		</td>

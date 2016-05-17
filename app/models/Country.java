@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 @Entity
 public class Country extends Model {
@@ -30,4 +30,5 @@ public class Country extends Model {
 	public static Country RUSSIA() { return byName("СССР"); } //ф-ции возврата флота
 	public static Country USA() { return byName("США"); }
 	public static Country JAPAN() { return byName("Япония"); }
+	public static Country GERMANY() { return byName("Германия");}
 }

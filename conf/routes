@@ -10,6 +10,8 @@ DELETE	/ 				controllers.Auth.logout()
 
 POST 	/ships			controllers.Ships.getships()
 POST 	/api/ships		controllers.Ships.getships_api()
+POST	/api/delship 	controllers.Ships.delship_api()
+POST	/api/sendtship	controllers.Ships.sendship_api()
 GET     /api/jsRoutes	controllers.Application.jsRoutes()
 
 # Map static resources from the /public folder to the /assets URL path

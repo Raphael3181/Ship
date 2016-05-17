@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 @Entity
 public class Category extends Model {
@@ -30,6 +30,5 @@ public class Category extends Model {
 	public static Category AIRCRAFT_CARRIER() { return byName("Авианосец"); }
 	public static Category BATTLESHIP() { return byName("Линкор"); }
 	public static Category CRUISER() { return byName("Крейсер"); }
-	public static Category SUBMARINE() { return byName("Подводная лодка"); }
 	public static Category DESTROYER() { return byName("Эсминец"); }
 }

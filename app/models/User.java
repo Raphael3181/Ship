@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import models.Login;
 import play.data.validation.Constraints.Email;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 import play.mvc.Controller;
 
 @Entity
