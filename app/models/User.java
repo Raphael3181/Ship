@@ -12,7 +12,7 @@ import play.data.validation.Constraints.Email;
 import com.avaje.ebean.Model;
 import play.mvc.Controller;
 
-@Entity
+@Entity @Table(name="users")
 public class User extends Model {
 	
 	@Id @Email
@@ -27,6 +27,7 @@ public class User extends Model {
 		hash = SHA256(json.findPath("password").textValue());
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static Finder<String, User> find = new Finder<String, User>(String.class, User.class);  
 	
 	// Аутентификация через cookies ,сверка cookies с тем что есть в базе сервера

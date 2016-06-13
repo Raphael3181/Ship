@@ -10,7 +10,7 @@ import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 
-@Entity
+@Entity @Table(name="ships")
 public class Ship extends Model { //Поля соотв столбцам
 	@Id
 	public Long id;
@@ -57,6 +57,7 @@ public class Ship extends Model { //Поля соотв столбцам
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static Finder<Long, Ship> find = new Finder<Long, Ship>(Long.class, Ship.class); //Формирует корабль из JSON
 	public Ship(JsonNode json) {
 		if (json.has("id")) id = json.findPath("id").longValue();

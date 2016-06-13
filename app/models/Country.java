@@ -18,6 +18,7 @@ public class Country extends Model {
 	public String fleet; // Название флота
 	public Country(String name, String fleet) { this.name = name; this.fleet = fleet; }  //конструктор создания флота
 	
+	@SuppressWarnings("deprecation")
 	private static Finder<Long, Country> find = new Finder<Long, Country>(Long.class, Country.class); //поиск соответсвия в базе
 	
 	public static List<Country> all() { return find.all(); } //все флоты
