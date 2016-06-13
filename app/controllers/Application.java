@@ -19,12 +19,12 @@ public class Application extends Controller {
 	}
 
 	public static Result jsRoutes() {  //пути javascript 
-        response().setContentType("text/javascript");
-        return ok(Routes.javascriptRouter("jsRoutes",
-        		controllers.routes.javascript.Auth.auth(),
-                controllers.routes.javascript.Auth.register(),
-                controllers.routes.javascript.Auth.logout(),
-                controllers.routes.javascript.Ships.getships())
-        );
-    }
+		response().setContentType("text/javascript");
+		return ok(Routes.javascriptRouter("jsRoutes",
+				controllers.routes.javascript.Auth.auth(),
+				controllers.routes.javascript.Auth.register(),
+				controllers.routes.javascript.Auth.logout(),
+				controllers.routes.javascript.Ships.getships())
+		);
+	}
 }

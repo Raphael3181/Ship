@@ -11,13 +11,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Ships extends Controller {
 	// Получить корабли которые нужны
 	public static Result getships() {
-        ObjectNode result = Json.newObject();
-    	result.put("status", "OK");
-    	DynamicForm data = Form.form().bindFromRequest();
-    	int fleet = Integer.valueOf(data.get("fleet")); //передет id флота
-    	int cat = Integer.valueOf(data.get("cat")); //передает id категории
-    	result.set("objects", Json.toJson(Ship.get(fleet,cat))); //возврат списка кораблей(создание поля objects в виде массива кораблей )
-    	return ok(result);
+		ObjectNode result = Json.newObject();
+		result.put("status", "OK");
+		DynamicForm data = Form.form().bindFromRequest();
+		int fleet = Integer.valueOf(data.get("fleet")); //передет id флота
+		int cat = Integer.valueOf(data.get("cat")); //передает id категории
+		result.set("objects", Json.toJson(Ship.get(fleet,cat))); //возврат списка кораблей(создание поля objects в виде массива кораблей )
+		return ok(result);
 	}
 	
 	@BodyParser.Of(BodyParser.Json.class)
@@ -29,9 +29,9 @@ public class Ships extends Controller {
 		classes[2] = json.findPath("cruiser").booleanValue();
 		classes[3] = json.findPath("destroyer").booleanValue();
 		ObjectNode result = Json.newObject();
-    	result.put("status", "OK");
-    	result.set("ships", Json.toJson(Ship.get(json.findPath("country").intValue(), classes)));
-    	return ok(result);
+		result.put("status", "OK");
+		result.set("ships", Json.toJson(Ship.get(json.findPath("country").intValue(), classes)));
+		return ok(result);
 	}
 	
 	@BodyParser.Of(BodyParser.Json.class)
@@ -40,8 +40,8 @@ public class Ships extends Controller {
 		if (json.has("id")) new Ship(json).update();
 		else new Ship(json).save();
 		ObjectNode result = Json.newObject();
-    	result.put("status", "OK");
-    	return ok(result);
+		result.put("status", "OK");
+		return ok(result);
 	}
 	
 	@BodyParser.Of(BodyParser.Json.class)
@@ -50,6 +50,6 @@ public class Ships extends Controller {
 		Ship.delete(json.findPath("id").longValue());
 		ObjectNode result = Json.newObject();
 		result.put("status", "OK");
-    	return ok(result);
+		return ok(result);
 	}
 }
